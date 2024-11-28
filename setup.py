@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="tradingview-datafeed",
-    version="2.1.1",
+    version="2.1.2",
     packages=["tvDatafeed"],
     url="https://github.com/demonarch/tvdatafeed/",
     project_urls={

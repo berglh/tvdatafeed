@@ -31,7 +31,7 @@ class Interval(enum.Enum):
 
 class TvDatafeed:
     __sign_in_url = 'https://www.tradingview.com/accounts/signin/'
-    __search_url = 'https://symbol-search.tradingview.com/symbol_search/?text={}&hl=1&exchange={}&lang=en&type=&domain=production'
+    __search_url = 'https://symbol-search.tradingview.com/symbol_search/v3/?text={}&hl=1&exchange={}&lang=en&search_type=undefined&domain=production&sort_by_country=US'
     __ws_headers = json.dumps({"Origin": "https://data.tradingview.com"})
     __signin_headers = {'Referer': 'https://www.tradingview.com'}
     __ws_timeout = 5
@@ -300,7 +300,15 @@ class TvDatafeed:
 
         symbols_list = []
         try:
-            resp = requests.get(url)
+            session = requests.Session()
+            # Set required headers
+            headers = {
+                'Referer': 'https://www.tradingview.com/',
+                'Origin': 'https://www.tradingview.com',
+                'Accept-Encoding': 'gzip, deflate, br, zstd'
+            }
+            session.headers.update(headers)
+            resp = session.get(url)
 
             symbols_list = json.loads(resp.text.replace(
                 '</em>', '').replace('<em>', ''))
